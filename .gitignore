@@ -8,6 +8,7 @@ venv/
 env/
 
 .env
+ca.pem
 
 *.sql
 !database/schema.sql

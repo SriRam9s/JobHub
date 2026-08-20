@@ -7,11 +7,13 @@ load_dotenv()
 
 def get_db_connection():
     connection = mysql.connector.connect(
-        host=os.environ.get("MYSQLHOST"),
-        port=int(os.environ.get("MYSQLPORT", 3306)),
-        user=os.environ.get("MYSQLUSER"),
-        password=os.environ.get("MYSQLPASSWORD"),
-        database=os.environ.get("MYSQLDATABASE", "job_portal")
+        host=os.getenv("MYSQLHOST"),
+        port=int(os.getenv("MYSQLPORT", 3306)),
+        user=os.getenv("MYSQLUSER"),
+        password=os.getenv("MYSQLPASSWORD"),
+        database=os.getenv("MYSQLDATABASE"),
+        ssl_ca=os.path.join(os.path.dirname(__file__), "ca.pem"),
+        ssl_verify_cert=True
     )
 
     return connection
