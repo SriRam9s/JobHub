@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - JobHub</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Job<span>Hub</span>
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/jobs">
+                Find Jobs
+            </a>
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+        </div>
+
+
+        <div class="nav-buttons">
+
+            <a href="/logout"
+               class="register-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="dashboard-container">
+
+        <div class="dashboard-header">
+
+            <p class="section-label">
+                DASHBOARD
+            </p>
+
+            <h1>
+                Welcome, {{ name }} 👋
+            </h1>
+
+            <p>
+                You are logged in as
+                <strong>{{ role.replace("_", " ").title() }}</strong>.
+            </p>
+
+        </div>
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="alert {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <div class="dashboard-grid">
+
+            <div class="dashboard-card">
+
+                <div class="dashboard-icon">
+                    🔎
+                </div>
+
+                <h3>
+                    Find Jobs
+                </h3>
+
+                <p>
+                    Search for jobs that match your skills and interests.
+                </p>
+
+                <a href="/jobs">
+                    Explore Jobs →
+                </a>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <div class="dashboard-icon">
+                    📄
+                </div>
+
+                <h3>
+                    My Applications
+                </h3>
+
+                <p>
+                    Track the jobs you have applied for.
+                </p>
+
+                <a href="/applications">
+                    View Applications →
+                </a>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <div class="dashboard-icon">
+                    ❤️
+                </div>
+
+                <h3>
+                    Saved Jobs
+                </h3>
+
+                <p>
+                    View jobs you have saved for later.
+                </p>
+
+                <a href="#">
+                    View Saved Jobs →
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

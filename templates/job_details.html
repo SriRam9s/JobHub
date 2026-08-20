@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ job.title }} - JobHub</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Job<span>Hub</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">Home</a>
+
+            <a href="/jobs">Find Jobs</a>
+
+            {% if session.get("user_id") %}
+                <a href="/dashboard">Dashboard</a>
+            {% endif %}
+
+        </div>
+
+        <div class="nav-buttons">
+
+            {% if session.get("user_id") %}
+
+                <a href="/logout"
+                   class="register-btn">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="/login"
+                   class="login-btn">
+                    Login
+                </a>
+
+                <a href="/register"
+                   class="register-btn">
+                    Register
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </nav>
+
+
+    <!-- JOB HEADER -->
+
+    <section class="job-details-header">
+
+        <div class="job-details-company-logo">
+            {{ job.company_name[0] }}
+        </div>
+
+        <div>
+
+            <p class="section-label">
+                JOB OPPORTUNITY
+            </p>
+
+            <h1>
+                {{ job.title }}
+            </h1>
+
+            <h3>
+                {{ job.company_name }}
+            </h3>
+
+            <div class="job-details-meta">
+
+                <span>📍 {{ job.location }}</span>
+
+                <span>💼 {{ job.job_type }}</span>
+
+                <span>💰 {{ job.salary }}</span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTENT -->
+
+    <main class="job-details-container">
+
+        <div class="job-details-main">
+
+            <section class="details-section">
+
+                <h2>
+                    Job Description
+                </h2>
+
+                <p>
+                    {{ job.description }}
+                </p>
+
+            </section>
+
+
+            <section class="details-section">
+
+                <h2>
+                    Required Skills
+                </h2>
+
+                <div class="skills">
+
+                    {% for skill in job.skills.split(',') %}
+
+                        <span>
+                            {{ skill.strip() }}
+                        </span>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+
+            <section class="details-section">
+
+                <h2>
+                    About {{ job.company_name }}
+                </h2>
+
+                <p>
+                    {{ job.company_description }}
+                </p>
+
+            </section>
+
+        </div>
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="job-details-sidebar">
+
+            <div class="apply-card">
+
+                <h2>
+                    Interested in this job?
+                </h2>
+
+                <p>
+                    Submit your application and take
+                    the next step in your career.
+                </p>
+
+
+                {% if session.get("user_id") %}
+
+                    {% if session.get("user_role") == "job_seeker" %}
+
+                        <a
+                            href="{{ url_for('apply_job', job_id=job.id) }}"
+                            class="apply-button">
+
+                            Apply Now
+
+                        </a>
+
+                    {% else %}
+
+                        <p class="login-note">
+                            Recruiters cannot apply for jobs.
+                        </p>
+
+                    {% endif %}
+
+                {% else %}
+
+                    <a
+                        href="/login"
+                        class="apply-button">
+
+                        Login to Apply
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="job-info-card">
+
+                <h3>
+                    Job Information
+                </h3>
+
+                <div>
+                    <strong>Location</strong>
+                    <span>{{ job.location }}</span>
+                </div>
+
+                <div>
+                    <strong>Job Type</strong>
+                    <span>{{ job.job_type }}</span>
+                </div>
+
+                <div>
+                    <strong>Salary</strong>
+                    <span>{{ job.salary }}</span>
+                </div>
+
+                <div>
+                    <strong>Posted</strong>
+                    <span>
+                        {{ job.created_at.strftime('%d %b %Y') }}
+                    </span>
+                </div>
+
+            </div>
+
+        </aside>
+
+    </main>
+
+</body>
+
+</html>

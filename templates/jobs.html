@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Find Jobs - JobHub</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Job<span>Hub</span>
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/jobs">
+                Find Jobs
+            </a>
+
+            {% if session.get("user_id") %}
+
+                <a href="/dashboard">
+                    Dashboard
+                </a>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="nav-buttons">
+
+            {% if session.get("user_id") %}
+
+                <a href="/logout"
+                   class="register-btn">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="/login"
+                   class="login-btn">
+                    Login
+                </a>
+
+                <a href="/register"
+                   class="register-btn">
+                    Register
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </nav>
+
+
+    <!-- PAGE HEADER -->
+
+    <section class="jobs-header">
+
+        <div>
+
+            <p class="section-label">
+                EXPLORE OPPORTUNITIES
+            </p>
+
+            <h1>
+                Find Your Next Job
+            </h1>
+
+            <p>
+                Discover opportunities that match your skills
+                and career goals.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- SEARCH -->
+
+    <section class="jobs-search">
+
+        <form method="GET"
+              action="/jobs">
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search job title or skills..."
+                value="{{ search or '' }}">
+
+
+            <input
+                type="text"
+                name="location"
+                placeholder="Location..."
+                value="{{ location or '' }}">
+
+
+            <button type="submit">
+                Search Jobs
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- JOBS -->
+
+    <main class="jobs-container">
+
+        <div class="jobs-count">
+
+            <h2>
+                Available Jobs
+            </h2>
+
+            <span>
+                {{ jobs|length }} jobs found
+            </span>
+
+        </div>
+
+
+        {% if jobs %}
+
+            <div class="job-grid">
+
+                {% for job in jobs %}
+
+                    <div class="job-card">
+
+                        <div class="job-card-top">
+
+                            <div class="company-logo">
+                                {{ job.company_name[0] }}
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    {{ job.title }}
+                                </h3>
+
+                                <p class="company-name">
+                                    {{ job.company_name }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="job-meta">
+
+                            <span>
+                                📍 {{ job.location }}
+                            </span>
+
+                            <span>
+                                💼 {{ job.job_type }}
+                            </span>
+
+                            <span>
+                                💰 {{ job.salary }}
+                            </span>
+
+                        </div>
+
+
+                        <p class="job-description">
+
+                            {{ job.description[:150] }}
+
+                            {% if job.description|length > 150 %}
+                                ...
+                            {% endif %}
+
+                        </p>
+
+
+                        <div class="skills">
+
+                            {% for skill in job.skills.split(',') %}
+
+                                <span>
+                                    {{ skill.strip() }}
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <div class="job-card-bottom">
+
+                            <small>
+                                {{ job.created_at.strftime('%d %b %Y') }}
+                            </small>
+
+                            <a
+                                href="{{ url_for('job_details', job_id=job.id) }}">
+
+                                View Details →
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="no-jobs">
+
+                <div>
+                    🔍
+                </div>
+
+                <h2>
+                    No Jobs Found
+                </h2>
+
+                <p>
+                    Try searching for another job title,
+                    skill or location.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </main>
+
+
+</body>
+
+</html>

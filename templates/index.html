@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JobHub - Find Your Dream Job</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+
+        <div class="logo">
+            Job<span>Hub</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/jobs">Find Jobs</a>
+            <a href="#">Companies</a>
+            <a href="#">About</a>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="/login" class="login-btn">Login</a>
+            <a href="/register" class="register-btn">Register</a>
+        </div>
+
+    </nav>
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <p class="hero-small-title">
+                FIND YOUR NEXT OPPORTUNITY
+            </p>
+
+            <h1>
+                Find a Job That
+                <span>Fits Your Future</span>
+            </h1>
+
+            <p class="hero-description">
+                Discover thousands of job opportunities from
+                top companies and take the next step in your career.
+            </p>
+
+
+            <!-- Search -->
+            <div class="search-box">
+
+                <div class="search-input">
+                    <span>🔍</span>
+                    <input
+                        type="text"
+                        placeholder="Job title, skills or keywords">
+                </div>
+
+                <div class="search-input">
+                    <span>📍</span>
+                    <input
+                        type="text"
+                        placeholder="Location">
+                </div>
+
+                <button>
+                    Search Jobs
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Popular Categories -->
+    <section class="categories">
+
+        <div class="section-heading">
+
+            <div>
+                <p>EXPLORE OPPORTUNITIES</p>
+                <h2>Popular Job Categories</h2>
+            </div>
+
+            <a href="/jobs">
+                View All Jobs →
+            </a>
+
+        </div>
+
+
+        <div class="category-grid">
+
+            <div class="category-card">
+                <div class="category-icon">💻</div>
+                <h3>Software Development</h3>
+                <p>1,250+ Jobs</p>
+            </div>
+
+            <div class="category-card">
+                <div class="category-icon">📊</div>
+                <h3>Data Science</h3>
+                <p>850+ Jobs</p>
+            </div>
+
+            <div class="category-card">
+                <div class="category-icon">🎨</div>
+                <h3>UI/UX Design</h3>
+                <p>620+ Jobs</p>
+            </div>
+
+            <div class="category-card">
+                <div class="category-icon">📈</div>
+                <h3>Marketing</h3>
+                <p>540+ Jobs</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Why JobHub -->
+    <section class="features">
+
+        <div class="feature-content">
+
+            <p class="section-label">
+                WHY CHOOSE JOBHUB
+            </p>
+
+            <h2>
+                Everything You Need
+                to Build Your Career
+            </h2>
+
+            <p>
+                JobHub makes it easier for candidates to discover
+                opportunities and for companies to find talented
+                professionals.
+            </p>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <div>🔎</div>
+                <h3>Smart Job Search</h3>
+                <p>
+                    Search and filter jobs based on your skills,
+                    location and preferences.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div>🏢</div>
+                <h3>Top Companies</h3>
+                <p>
+                    Discover opportunities from companies
+                    looking for talented professionals.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div>📄</div>
+                <h3>Easy Applications</h3>
+                <p>
+                    Apply for jobs and track your application
+                    status from one dashboard.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <div class="footer-logo">
+            Job<span>Hub</span>
+        </div>
+
+        <p>
+            Find opportunities. Build your future.
+        </p>
+
+        <p class="copyright">
+            © 2026 JobHub. All rights reserved.
+        </p>
+
+    </footer>
+
+</body>
+</html>

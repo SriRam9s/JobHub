@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Recruiter Dashboard - JobHub</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Job<span>Hub</span>
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/jobs">
+                Find Jobs
+            </a>
+
+            <a href="/recruiter/dashboard">
+                Dashboard
+            </a>
+
+        </div>
+
+
+        <div class="nav-buttons">
+
+            <a href="/logout"
+               class="register-btn">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN -->
+
+    <main class="recruiter-container">
+
+
+        <!-- HEADER -->
+
+        <div class="recruiter-header">
+
+            <div>
+
+                <p class="section-label">
+                    RECRUITER DASHBOARD
+                </p>
+
+                <h1>
+                    Welcome, {{ session["user_name"] }} 👋
+                </h1>
+
+                {% if company %}
+
+                    <p>
+                        Managing jobs for
+                        <strong>
+                            {{ company.company_name }}
+                        </strong>
+                    </p>
+
+                {% else %}
+
+    <p>
+        Create your company profile to start posting jobs.
+    </p>
+
+    <a href="/create-company"
+       class="post-job-button">
+
+        + Create Company
+
+    </a>
+
+{% endif %}
+
+            </div>
+
+
+            {% if company %}
+
+                <a href="/post-job"
+                   class="post-job-button">
+
+                    + Post New Job
+
+                </a>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- FLASH MESSAGES -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="alert {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- STATISTICS -->
+
+        <div class="recruiter-stats">
+
+
+            <div class="recruiter-stat-card">
+
+                <span class="stat-icon">
+                    💼
+                </span>
+
+                <div>
+
+                    <p>
+                        Total Jobs
+                    </p>
+
+                    <h2>
+                        {{ jobs|length }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="recruiter-stat-card">
+
+                <span class="stat-icon">
+                    👥
+                </span>
+
+                <div>
+
+                    <p>
+                        Total Applicants
+                    </p>
+
+                    <h2>
+
+                        {% set total_applicants = 0 %}
+
+                        {% for job in jobs %}
+
+                            {% set total_applicants =
+                                total_applicants + job.applicant_count %}
+
+                        {% endfor %}
+
+                        {{ total_applicants }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="recruiter-stat-card">
+
+                <span class="stat-icon">
+                    🟢
+                </span>
+
+                <div>
+
+                    <p>
+                        Active Jobs
+                    </p>
+
+                    <h2>
+
+                        {{ jobs | selectattr("status", "equalto", "Active") | list | length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- JOBS -->
+
+        <section class="recruiter-jobs">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Your Job Posts
+                    </h2>
+
+                    <p>
+                        Manage the jobs you have posted.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if jobs %}
+
+                <div class="recruiter-job-table">
+
+                    <div class="table-header">
+
+                        <span>
+                            Job
+                        </span>
+
+                        <span>
+                            Location
+                        </span>
+
+                        <span>
+                            Type
+                        </span>
+
+                        <span>
+                            Applicants
+                        </span>
+
+                        <span>
+                            Status
+                        </span>
+
+                        <span>
+                            Action
+                        </span>
+
+                    </div>
+
+
+                    {% for job in jobs %}
+
+                        <div class="table-row">
+
+                            <div class="job-name">
+
+                                <strong>
+                                    {{ job.title }}
+                                </strong>
+
+                                <small>
+                                    Posted
+                                    {{ job.created_at.strftime('%d %b %Y') }}
+                                </small>
+
+                            </div>
+
+
+                            <span>
+                                {{ job.location }}
+                            </span>
+
+
+                            <span>
+                                {{ job.job_type }}
+                            </span>
+
+
+                            <span class="applicant-number">
+
+                                👥 {{ job.applicant_count }}
+
+                            </span>
+
+
+                            <span>
+
+                                {% if job.status == "Active" %}
+
+                                    <span class="status-active">
+                                        Active
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status-closed">
+                                        {{ job.status }}
+                                    </span>
+
+                                {% endif %}
+
+                            </span>
+
+
+                            <div>
+
+                                <a
+                                    href="/recruiter/applicants/{{ job.id }}"
+                                    class="view-applicants">
+
+                                    Applicants →
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-recruiter">
+
+                    <div>
+                        💼
+                    </div>
+
+                    <h2>
+                        No Jobs Posted Yet
+                    </h2>
+
+                    <p>
+                        Start hiring by posting your first job.
+                    </p>
+
+
+                    {% if company %}
+
+                        <a href="/post-job"
+                           class="post-job-button">
+
+                            Post Your First Job
+
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

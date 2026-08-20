@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Applicants - JobHub</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Job<span>Hub</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/jobs">
+                Find Jobs
+            </a>
+
+            <a href="/recruiter/dashboard">
+                Dashboard
+            </a>
+
+        </div>
+
+        <div class="nav-buttons">
+
+            <a href="/logout"
+               class="register-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN -->
+
+    <main class="applicants-container">
+
+        <div class="applicants-header">
+
+            <div>
+
+                <p class="section-label">
+                    APPLICATIONS
+                </p>
+
+                <h1>
+                    {{ job.title }}
+                </h1>
+
+                <p>
+                    {{ job.location }}
+                    ·
+                    {{ job.job_type }}
+                </p>
+
+            </div>
+
+
+            <a
+                href="/recruiter/dashboard"
+                class="back-button">
+
+                ← Dashboard
+
+            </a>
+
+        </div>
+
+
+        <!-- APPLICANTS -->
+
+        {% if applicants %}
+
+            <div class="applicants-list">
+
+                {% for applicant in applicants %}
+
+                    <div class="applicant-card">
+
+
+                        <!-- APPLICANT HEADER -->
+
+                        <div class="applicant-header">
+
+                            <div class="applicant-profile">
+
+                                <div class="applicant-avatar">
+
+                                    {{ applicant.name[0] | upper }}
+
+                                </div>
+
+
+                                <div>
+
+                                    <h2>
+                                        {{ applicant.name }}
+                                    </h2>
+
+                                    <p>
+                                        {{ applicant.email }}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                {% if applicant.status == "Applied" %}
+
+                                    <span class="status-applied">
+                                        Applied
+                                    </span>
+
+                                {% elif applicant.status == "Accepted" %}
+
+                                    <span class="status-accepted">
+                                        Accepted
+                                    </span>
+
+                                {% elif applicant.status == "Rejected" %}
+
+                                    <span class="status-rejected">
+                                        Rejected
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status-applied">
+                                        {{ applicant.status }}
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- APPLICATION DETAILS -->
+
+                        <div class="application-details">
+
+                            <div>
+
+                                <h3>
+                                    Resume
+                                </h3>
+
+                                <p>
+                                    {{ applicant.resume }}
+                                </p>
+
+                            </div>
+
+
+                            <div>
+
+                                <h3>
+                                    Cover Letter
+                                </h3>
+
+                                <p class="cover-letter">
+                                    {{ applicant.cover_letter }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DATE -->
+
+                        <div class="application-date">
+
+                            Applied on
+                            {{ applicant.applied_at.strftime('%d %b %Y, %I:%M %p') }}
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        {% if applicant.status == "Applied" %}
+
+                            <div class="applicant-actions">
+
+                                <form
+                                    method="POST"
+                                    action="/recruiter/application/{{ applicant.id }}/accept">
+
+                                    <button
+                                        type="submit"
+                                        class="accept-button">
+
+                                        ✓ Accept
+
+                                    </button>
+
+                                </form>
+
+
+                                <form
+                                    method="POST"
+                                    action="/recruiter/application/{{ applicant.id }}/reject">
+
+                                    <button
+                                        type="submit"
+                                        class="reject-button">
+
+                                        ✕ Reject
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="no-applicants">
+
+                <div>
+                    👥
+                </div>
+
+                <h2>
+                    No Applicants Yet
+                </h2>
+
+                <p>
+                    Applications for this job will appear here.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </main>
+
+</body>
+
+</html>

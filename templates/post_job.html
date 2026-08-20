@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Post a Job - JobHub</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Job<span>Hub</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/jobs">
+                Find Jobs
+            </a>
+
+            <a href="/recruiter/dashboard">
+                Dashboard
+            </a>
+
+        </div>
+
+        <div class="nav-buttons">
+
+            <a href="/logout"
+               class="register-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- POST JOB -->
+
+    <main class="post-job-container">
+
+        <div class="post-job-card">
+
+            <div class="post-job-header">
+
+                <p class="section-label">
+                    RECRUITER
+                </p>
+
+                <h1>
+                    Post a New Job
+                </h1>
+
+                <p>
+                    Find the right candidate for
+                    {{ company.company_name }}.
+                </p>
+
+            </div>
+
+
+            <!-- FLASH MESSAGES -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="alert {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <form
+                method="POST"
+                action="{{ url_for('post_job') }}">
+
+
+                <!-- JOB TITLE -->
+
+                <div class="form-group">
+
+                    <label for="title">
+                        Job Title *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        placeholder="e.g. Python Developer"
+                        required>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group">
+
+                    <label for="description">
+                        Job Description *
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="7"
+                        placeholder="Describe the role, responsibilities and requirements..."
+                        required></textarea>
+
+                </div>
+
+
+                <!-- LOCATION + SALARY -->
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="location">
+                            Location *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="location"
+                            name="location"
+                            placeholder="e.g. Hyderabad"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="salary">
+                            Salary
+                        </label>
+
+                        <input
+                            type="text"
+                            id="salary"
+                            name="salary"
+                            placeholder="e.g. ₹5 - ₹8 LPA">
+
+                    </div>
+
+                </div>
+
+
+                <!-- JOB TYPE -->
+
+                <div class="form-group">
+
+                    <label for="job_type">
+                        Job Type *
+                    </label>
+
+                    <select
+                        id="job_type"
+                        name="job_type"
+                        required>
+
+                        <option value="Full Time">
+                            Full Time
+                        </option>
+
+                        <option value="Part Time">
+                            Part Time
+                        </option>
+
+                        <option value="Internship">
+                            Internship
+                        </option>
+
+                        <option value="Contract">
+                            Contract
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SKILLS -->
+
+                <div class="form-group">
+
+                    <label for="skills">
+                        Required Skills *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="skills"
+                        name="skills"
+                        placeholder="Python, Flask, MySQL, Git"
+                        required>
+
+                    <small>
+                        Separate skills using commas.
+                    </small>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="post-job-actions">
+
+                    <a
+                        href="/recruiter/dashboard"
+                        class="cancel-button">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="post-job-submit">
+
+                        Publish Job
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

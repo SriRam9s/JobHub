@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Applications - JobHub</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Job<span>Hub</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/jobs">
+                Find Jobs
+            </a>
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+        </div>
+
+        <div class="nav-buttons">
+
+            <a href="/logout"
+               class="register-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="application-container">
+
+        <div class="application-card">
+
+            <p class="section-label">
+                JOB SEEKER
+            </p>
+
+            <h1>
+                My Applications
+            </h1>
+
+            {% if applications %}
+
+                {% for application in applications %}
+
+                    <div class="application-item">
+
+                        <h2>
+                            {{ application.title }}
+                        </h2>
+
+                        <p>
+                            <strong>
+                                {{ application.company_name }}
+                            </strong>
+                        </p>
+
+                        <p>
+                            {{ application.location }}
+                            {% if application.job_type %}
+                                • {{ application.job_type }}
+                            {% endif %}
+                        </p>
+
+                        {% if application.salary %}
+                            <p>
+                                Salary: {{ application.salary }}
+                            </p>
+                        {% endif %}
+
+                        <p>
+                            Applied on:
+                            {{ application.applied_at }}
+                        </p>
+
+                        <p>
+                            Status:
+                            <strong>
+                                {{ application.status }}
+                            </strong>
+                        </p>
+
+                        <a href="{{ url_for('job_details', job_id=application.job_id) }}">
+                            View Job
+                        </a>
+
+                    </div>
+
+                    <hr>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>
+                    You have not applied for any jobs yet.
+                </p>
+
+                <a href="/jobs">
+                    Find Jobs
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
